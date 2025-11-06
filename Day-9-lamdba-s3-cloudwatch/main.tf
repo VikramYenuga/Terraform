@@ -20,7 +20,6 @@ resource "aws_iam_role_policy_attachment" "lambda_basic" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
 
-/*
 #lamdba_cloudwatch_policy
 resource "aws_iam_role_policy" "lambda_cloudwatch_policy" {
   name = "lambda_cloudwatch_logs_policy"
@@ -41,8 +40,6 @@ resource "aws_iam_role_policy" "lambda_cloudwatch_policy" {
     ]
   })
 }
-
-*/
 
 # create aws_s3_bucket
 resource "aws_s3_bucket" "lambda_bucket" {
@@ -70,8 +67,6 @@ resource "aws_lambda_function" "my_lambda" {
   s3_key    = aws_s3_object.lambda_zip.key
 }
 
-
-/*
 #create cloudwatch
 resource "aws_cloudwatch_event_rule" "lambda_schedule" {
   name                = "lambda-schedule-rule"
@@ -93,4 +88,3 @@ resource "aws_lambda_permission" "allow_eventbridge" {
   principal     = "events.amazonaws.com"
   source_arn    = aws_cloudwatch_event_rule.lambda_schedule.arn
 }
-*/
