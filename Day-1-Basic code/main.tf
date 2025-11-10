@@ -2,7 +2,7 @@ resource "aws_vpc" "name" {
   cidr_block = "10.0.0.0/16"
   tags       = { name = "aws_vpc" }
 
-}
+}                                                                        #to create first vpc  to terraform
 resource "aws_subnet" "name" {
   vpc_id     = aws_vpc.name.id
   cidr_block = "10.0.0.0/24"
@@ -10,4 +10,4 @@ resource "aws_subnet" "name" {
     name = "ma"
   }
 
-}
+}                                                                   # to subnet with vpc on terraform
