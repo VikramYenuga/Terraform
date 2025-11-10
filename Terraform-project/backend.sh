@@ -1,3 +1,4 @@
+#! /bin/bash
 yum install git -y
 sudo yum install mariadb-105-server -y
 sudo dnf install -y nodejs
