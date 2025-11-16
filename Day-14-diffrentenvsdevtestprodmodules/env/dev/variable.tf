@@ -1,0 +1,15 @@
+variable "vpc_cidr" {}
+variable "public_subnet_id" {}
+variable "availability_zone1" {}
+variable "instance_type" {}
+variable "env" {}
+variable "ami_id" {}
+variable "region" {}
+variable "subnet_1_id" {}
+variable "subnet_2_id" {}
+variable "db_instance_class" {}
+variable "db_user" {}
+variable "db_name" {}
+variable "db_password" {}
+variable "availability_zone2" {}
+variable "aws_s3_bucket" {}
