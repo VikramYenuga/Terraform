@@ -1,10 +1,10 @@
-name: Terraform CI
+name: Terraform CI/CD
 
 on:
-  workflow_dispatch:   # run manually
+  workflow_dispatch:   # manual run
   push:
     paths:
-      - "Terraform/Day-5-custom-network"
+      - "Terraform/Day-5-custom-network/**"   # 👈 include /** to watch folder changes
 
 jobs:
   terraform:
@@ -12,29 +12,49 @@ jobs:
 
     defaults:
       run:
-        working-directory: Terraform/Day-5-custom-network   # 👈 important
+        working-directory: Terraform/Day-5-custom-network   # 👈 fixed working directory
 
     steps:
+      # 1️⃣ Checkout repository
       - name: Checkout repo
         uses: actions/checkout@v4
 
+      # 2️⃣ Set up Terraform
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v3
 
+      # 3️⃣ Terraform Format Check
+      - name: Terraform Format
+        run: terraform fmt -check
+
+      # 4️⃣ Terraform Init
       - name: Terraform Init
         run: terraform init
 
+      # 5️⃣ Terraform Validate
       - name: Terraform Validate
         run: terraform validate
 
+      # 6️⃣ Terraform Plan
       - name: Terraform Plan
+        id: plan
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ap-south-1
-        run: terraform plan -out=tfplan
+        run: |
+          terraform plan -out=tfplan
+          terraform show -no-color tfplan > plan.txt
 
-      - name: Terraform Apply (manual)
+      # 7️⃣ Upload Plan as artifact (for PR review)
+      - name: Upload Terraform Plan
+        uses: actions/upload-artifact@v3
+        with:
+          name: tfplan
+          path: plan.txt
+
+      # 8️⃣ Terraform Apply (manual only)
+      - name: Terraform Apply
         if: github.event_name == 'workflow_dispatch'
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
