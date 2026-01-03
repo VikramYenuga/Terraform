@@ -4,7 +4,7 @@ on:
   workflow_dispatch:   # run manually
   push:
     paths:
-      - "Terraform/Day-5-custom-network/**"
+      - "Terraform/Day-5-custom-network"
 
 jobs:
   terraform:
