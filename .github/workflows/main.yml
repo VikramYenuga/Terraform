@@ -3,8 +3,6 @@ name: Terraform Deploy
 on:
   push:
     branches: [ main ]
-  #workflow_dispatch:   # ✅ Manual trigger only
-
 
 jobs:
   terraform:
@@ -13,7 +11,7 @@ jobs:
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      AWS_DEFAULT_REGION: us-east-1 # change if needed
+      AWS_DEFAULT_REGION: us-east-2
 
     steps:
       - name: Checkout
@@ -22,14 +20,20 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
 
+      - run: ls -R   # debug (optional)
+
       - name: Terraform Init
         run: terraform init
+        working-directory: day-7.1-modules
 
       - name: Terraform Validate
         run: terraform validate
+        working-directory: day-7.1-modules
 
       - name: Terraform Plan
         run: terraform plan -out=tfplan
+        working-directory: day-7.1-modules
 
       - name: Terraform Apply
-        run: terraform destroy -auto-approve tfplan
+        run: terraform apply -auto-approve tfplan
+        working-directory: day-7.1-modules
