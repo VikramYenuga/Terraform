@@ -16,7 +16,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: Terraform/day-13-root-child-modules   # 👈 added working directory
+        working-directory: day-13-root-child-modules   # 👈 added working directory
 
     steps:
       - name: Checkout
