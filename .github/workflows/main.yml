@@ -3,7 +3,7 @@ name: Terraform Deploy
 on:
   push:
     branches: [ main ]
-  # workflow_dispatch:   # ✅ Manual trigger only
+  # workflow_dispatch:   # Uncomment if you want manual triggers
 
 jobs:
   terraform:
@@ -12,46 +12,11 @@ jobs:
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      AWS_DEFAULT_REGION: ap-south-1 # change if needed
+      AWS_DEFAULT_REGION: ap-south-1
 
     defaults:
       run:
-        working-directory: day-13-root-child-modules   # 👈 added working directory
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v3
-
-      - name: Terraform Init
-        run: terraform init
-
-      - name: Terraform Validate
-        run: terraform validate
-
-      - name: Terraform Plan
-        run: terraform plan -out=tfplan
-name: Terraform Deploy
-
-on:
-  push:
-    branches: [ main ]
-  # workflow_dispatch:   # ✅ Manual trigger only
-
-jobs:
-  terraform:
-    runs-on: ubuntu-latest
-
-    env:
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      AWS_DEFAULT_REGION: ap-south-1 # change if needed
-
-    defaults:
-      run:
-        working-directory: day-13-root-child-modules   # 👈 added working directory
+        working-directory: Terraform/day-13-root-child-modules   # ✅ Adjust path
 
     steps:
       - name: Checkout
@@ -71,4 +36,3 @@ jobs:
 
       - name: Terraform Apply
         run: terraform apply -auto-approve tfplan
-    
